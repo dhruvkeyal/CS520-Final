@@ -9,4 +9,5 @@ Install osmnx
 > pip3 install osmnx
 
 # Need to change later:
-- Graph/config.py -> API key (need to create new Google Maps API account and set up a key)
+- Graph/config.py 
+    - -> API key (need to create new Google Maps API account and set up a key)
