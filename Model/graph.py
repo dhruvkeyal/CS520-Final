@@ -11,7 +11,7 @@ class Map:
     
     def elevation(self, graph):
         graph = ox.add_node_elevations(graph, api_key=self.google_key)
-        return Graph  
+        return graph  
 
     def dist_nodes(self,lat1,long1,lat2,long2):
         radius=6371008.8 # Earth radius
@@ -33,8 +33,14 @@ class Map:
         return graph
 
     def get_graph(self, s, e):
-        self.graph = ox.graph_from_point(s, distance=10000, network_type='walk')
-        self.graph = self.elevation_graph(self.graph)                         
+        self.graph = ox.graph_from_point(s, dist=10000, network_type='walk')
+        self.graph = self.elevation(self.graph)                         
         p.dump(self.graph, open("map.p", "wb"))
         self.graph = self.add_end_node(self.graph, e)
         return self.graph
+
+# g = Map()
+# s = [42.3868, -72.5301]
+# e = [42.22560, -72.31122]
+# g.get_graph(s,e)
+# print(g)
