@@ -1,2 +1,1 @@
-# API={}
-API="AIzaSyCJgTZU8StpSFsIulOvO40iF684-g6m4IA"
+API = "AIzaSyDSvrl_sFOTV5-Kknvx96hcE0OeyNYNqUM"
