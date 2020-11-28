@@ -4,22 +4,21 @@ from heapq import heapify, heappop, heappush
 from collections import defaultdict
 
 class AStar(Search):
-    def astar(self):
-        open_list = [[0, 0, self.start_node]]
+    def a_star(self):
+        shortest_dist = self.shortest_dist
+        open_list = [[0, self.start_node]]
         open_nodes = {self.start_node}
         heapify(open_list)
         closed_nodes = set()
         parent_node = defaultdict()
         parent_node[self.start_node] = -1
         while open_list:
-            cost, actual, curr_node = heappop(open_list)
+            cost, curr_node = heappop(open_list)
             open_nodes.remove(curr_node)
             closed_nodes.add(curr_node)
             
             if curr_node == self.end_node:
-                route = self.get_route(parent_node, self.end_node)
-                elevation_dist, drop_distance = self.get_elevation(route, "elevation_gain"), self.get_elevation(route, "elevation_drop")
-                self.best = [route[:], actual, elevation_dist, drop_distance]
+                self.found_end(parent_node, cost)
                 return
             
             for neighbor in self.Graph.neighbors(curr_node):
@@ -30,18 +29,20 @@ class AStar(Search):
                     estimated_cost = cost + self.get_cost(curr_node, neighbor, "elevation_gain")
                 elif self.elevation_type == "maximize":
                     estimated_cost = cost + self.get_cost(curr_node, neighbor, "elevation_drop")
-                else:
-                    estimated_cost = cost + self.get_cost(curr_node, neighbor, "normal")
+               
+               normal_cost = cost + self.get_cost(curr_node, neighbor, "normal")
                 
-                if neighbor in open_nodes:
-                    for estimated_next, actual_next,node_next in open_list:
-                        if node_next == neighbor and cost > actual_next:
+                if neighbor in open_nodes and normal_cost<=(1+self.x)*shortest_dist:
+                    for actual_next,node_next in open_list:
+                        if node_next == neighbor and (cost >= actual_next or normal_cost>=(1+self.x)*shortest_dist:
                                 continue
-                heappush(open_list, [estimated_cost, cost, neighbor])
+                heappush(open_list, [estimated_cost, neighbor])
                 parent_node[neighbor] = curr_node
+
+
 
 # graph = pd.read_pickle(r'../Model/map.p')
 # a = AStar(graph)
-# a.astar()
+# a.a_star()
 # print(a.best) 
     

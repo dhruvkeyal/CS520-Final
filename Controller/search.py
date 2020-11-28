@@ -98,60 +98,10 @@ class Search:
     def end_seach(self):
         return not (self.start_node == None or self.end_node == None)
 
-    def dijkstra(self):
-
-        if not self.start_node or not self.end_node:
-            return
-        Graph = self.Graph
-        x = self.x
-        shortest_dist = self.shortest_dist
-        elevation_type = self.elevation_type
-
-        start_node, end_node = self.start_node, self.end_node
-        queue = [(0.0,0.0, start_node)]
-        visited = set()
-        priority = {start_node:0}
-        previous_node = defaultdict()
-        previous_node[start_node] = -1
-
-        while queue:
-            curr_priority, curr_distance, curr_node = heappop(queue)
-
-            if(curr_node == end_node):
-                break
-            
-            if(curr_node not in visited):
-                visited.add(curr_node)
-            
-            for neighbor in Graph.neighbors(curr_node):
-                if neighbor in visited:
-                    continue
-                prev_priority =  priority.get(neighbor, None)
-                curr_edge_cost = self.get_cost(curr_node, neighbor, "normal")
-                # maximize(subtract) or minimize elevation(add)
-                if(elevation_type == "maximize"):
-                    if(x<=0.5):
-                        next_priority = curr_edge_cost*0.1 + self.get_cost(curr_node, n, "elevation_drop")
-                        next_priority += curr_priority
-                    else:
-                        next_priority = (curr_edge_cost*0.1 - self.get_cost(curr_node, n, "elevation_difference"))* edge_len*0.1
-                else:
-                        next_priority = curr_edge_cost*0.1 + self.get_cost(curr_node, n, "elevation_gain")
-                        next_priority += curr_priority
-
-                next_distance = curr_distance + curr_edge_cost
-
-                if(not prev_priority or next_priority < prev_priority) and next_distance <= shortest_dist*(1.0+x):
-                    priority[neighbor] = next_priority
-                    previous_node[neighbor] = curr_node
-                    heappush(queue, (next_priority, next_distance, neighbour))
-
-        if not curr_distance:
-            return
-            
-        route = self.get_route(previous_node, self.end_node)
+    def found_end(self, parent_node, cost):
+        route = self.get_route(parent_node, self.end_node)
         elevation_dist, drop_distance = self.get_elevation(route, "elevation_gain"), self.get_elevation(route, "elevation_drop")
-        self.best = [route[:], curr_distance, elevation_dist, drop_distance]
+        self.best = [route[:], cost, elevation_dist, drop_distance]
 
     def get_shortest_distance(self, start_point, end_point, x, elevation_type = "minimize"):
 
@@ -165,10 +115,12 @@ class Search:
         self.end_node, distance2 = ox.get_nearest_node(Graph, point=self.end_point, return_dist = True)
 
         self.shortest_route = nx.shortest_path(Graph, source = self.start_node, target = self.end_node, weight = 'length')
+        self.shortest_dist  = sum(ox.get_route_edge_attributes(G, self.shortest_route, 'length'))
+        
         self.shortest_latitude_longitude = [[Graph.nodes[node]['x'],Graph.nodes[node]['y']] for node in self.shortest_route] 
         
         self.shortest_path_data = [shortest_latitude_longitude, self.shortest_dist, \
-                            self.get_Elevation(self.shortest_route, "elevation_gain"), self.get_Elevation(self.shortest_route, "elevation_drop")]
+                            self.get_elevation(self.shortest_route, "elevation_gain"), self.get_elevation(self.shortest_route, "elevation_drop")]
 
         if(x == 0):
             return shortest_path_data, shortest_path_data
