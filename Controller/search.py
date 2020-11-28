@@ -153,7 +153,7 @@ class Search:
         elevation_dist, drop_distance = self.get_elevation(route, "elevation_gain"), self.get_elevation(route, "elevation_drop")
         self.best = [route[:], curr_distance, elevation_dist, drop_distance]
 
-    def get_shortest_distance(self, start_point, end_point, x, elevation_type = "maximize", log = True):
+    def get_shortest_distance(self, start_point, end_point, x, elevation_type = "minimize"):
 
         Graph = self.Graph
         self.x  = x/100
@@ -180,14 +180,6 @@ class Search:
         end = time.time()
         dijkstra_path = self.best
 
-        if log: 
-            print()
-            print("Dijkstra route statistics")
-            print(dijkstra_path[1])
-            print(dijkstra_path[2])
-            print(dijkstra_path[3])
-            print("--- Time taken = %s seconds ---" % (end - start))
-
         set_best_path(elevation_type)
         
         start = time.time()
@@ -195,46 +187,26 @@ class Search:
         end = time.time()
         a_star_path = self.best
 
-        if log:
-            print()
-            print("A star route statistics")
-            print(a_star_path[1])
-            print(a_star_path[2])
-            print(a_star_path[3])
-            print("--- Time taken = %s seconds ---" % (end - start))
-
-            print()
+        if self.elevation_type == "minimize": 
+            self.best = get_best_minimize(dijkstra_path, a_star_path) 
+        else: 
+            self.best = get_best_maximize(dijkstra_path, a_star_path)
         
-        if self.elevation_type == "minimize":
-            if(dijkstra_path[2] > a_star_path[2]) and (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]):
-                self.best = a_star_path
-                if log:
-                    print("A star chosen as best route")
-                    print()
-            else: 
-                self.best = dijkstra_path
-                if log:
-                    print("A star chosen as best route")
-                    print()
-        else:
-            if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] < a_star_path[2]):
-                self.best = a_star_path
-                if log:
-                    print("A star chosen as best route")
-                    print()
-            else: 
-                self.best = dijkstra_path
-                if log:
-                    print("A star chosen as best route")
-                    print()
-            
-        if (self.elevation_type == "minimize" and self.best[3] == float('-inf')) or (self.elevation_type == "maximize" and self.best[2] == float('-inf')):            
-            return shortest_path_data, [[], 0.0, 0, 0]
+        if (self.elevation_type == "minimize"):
+            min = True if self.best[3] == float('-inf') else False
+        else: 
+            max = True if self.best[2] == float('-inf') else False
+        
+        if min or max: return shortest_path_data, [[], 0.0, 0, 0]
 
         self.best[0] = [[Graph.nodes[node]['x'],Graph.nodes[node]['y']] for node in self.best[0]]
 
-        if((self.elevation_type == "maximize" and self.best[2] < shortest_path_data[2]) or (self.elevation_type == "minimize" and self.best[2] > shortest_path_data[2])):
-            self.best = shortest_path_data
+        if (self.elevation_type == "minimize"):
+            min = True if self.best[2] > shortest_path_data[2] else False
+        else: 
+            min = True if self.best[2] < shortest_path_data[2] else False
+        
+        if min or max: self.best = shortest_path_data
 
         return shortest_path_data, self.best
 
@@ -244,6 +216,13 @@ class Search:
             self.best = [[], 0.0, float('inf'), float('-inf')]
         else:
             self.best = [[], 0.0, float('-inf'), float('-inf')]
+    
+    def get_best_maximize(self, dijkstra_path, a_star_path):
+        return a_star_path if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] < a_star_path[2]) else dijkstra_path
+        
+    def get_best_minimize(self, dijkstra_path, a_star_path):
+        return a_star_path if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] > a_star_path[2]) else dijkstra_path
+       
 
 
 # graph = pd.read_pickle('../Model/map.p')
