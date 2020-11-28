@@ -1,5 +1,6 @@
 from collections import defaultdict, deque
-from heapq import *
+from heapq import heapify, heappush, heappop
+# import pandas as pd
 
 class Search:
 
@@ -53,7 +54,7 @@ class Search:
             return self.get_cost(route[i], route[i+1], "normal")
 
         def val_elev_diff():
-        return self.get_cost(route[i], route[i+1], "elevation_difference")
+            return self.get_cost(route[i], route[i+1], "elevation_difference")
     
         def val_elev_gain():
             return self.get_cost(route[i], route[i+1], "elevation_gain")
@@ -91,6 +92,8 @@ class Search:
             curr = parent_node[curr]
         return path[::-1]
 
+    def end_seach(self):
+        return not (self.start_node == None or self.end_node == None)
 
     def dijkstra(self):
 
@@ -123,7 +126,7 @@ class Search:
                 prev_priority =  priority.get(neighbor, None)
                 curr_edge_cost = self.get_cost(curr_node, neighbor, "normal")
                 # maximize(subtract) or minimize elevation(add)
-                if(elevation_type = "maximize"):
+                if(elevation_type == "maximize"):
                     if(x<=0.5):
                         next_priority = curr_edge_cost*0.1 + self.get_cost(curr_node, n, "elevation_drop")
                         next_priority += curr_priority
@@ -144,11 +147,14 @@ class Search:
             return
             
         route = self.get_route(previous_node, self.end_node)
-        elevation_dist, drop_distance = self.get_elevation(route, "elevation_gain"), self.get_Elevation(route, "elevation_drop")
-        self.best = [route[:], curr_distance, elevation_dist, drop_distance]
-        return
-            
+        elevation_dist, drop_distance = self.get_elevation(route, "elevation_gain"), self.get_elevation(route, "elevation_drop")
+        self.best = [route[:], curr_distance, elevation_dist, drop_distance]            
 
 
-
-
+# graph = pd.read_pickle('../Model/map.p')
+# s = [42.3868, -72.5301]
+# e = [42.22560, -72.31122]
+# graph = g.get_graph(s,e)
+# a = Search(graph)
+# a.dijkstra()
+# print(a.best) 
