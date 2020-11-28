@@ -1,3 +1,7 @@
+import osmnx as ox
+import networkx as nx
+import time
+
 from collections import defaultdict, deque
 from heapq import heapify, heappush, heappop
 # import pandas as pd
@@ -10,6 +14,9 @@ class Search:
         self.elevation_type = elevation_type
         self.start_node = None
         self.end_node = None
+        self.shortest_route = None
+        self.shortest_path_data = None
+        self.shortest_latitude_longitude
         self.best = [[], 0.0, float('-inf'), 0.0]
     
     def reset_graph(self, new_graph):
@@ -149,6 +156,106 @@ class Search:
         route = self.get_route(previous_node, self.end_node)
         elevation_dist, drop_distance = self.get_elevation(route, "elevation_gain"), self.get_elevation(route, "elevation_drop")
         self.best = [route[:], curr_distance, elevation_dist, drop_distance]            
+    
+    def get_shortest_distance(self, start_point, end_point, x, elevation_type = "maximize", log = True):
+
+        Graph = self.Graph
+        self.x  = x/100
+        self.elevation_type = elevation_type
+        self.start_node = None
+        self.end_node = None
+
+        self.start_node, distance1 = ox.get_nearest_node(Graph, point=self.start_point, return_dist = True)
+        self.end_node, distance2 = ox.get_nearest_node(Graph, point=self.end_point, return_dist = True)
+
+        self.shortest_route = nx.shortest_path(Graph, source = self.start_node, target = self.end_node, weight = 'length')
+        self.shortest_latitude_longitude = [[Graph.nodes[node]['x'],Graph.nodes[node]['y']] for node in self.shortest_route] 
+        
+        self.shortest_path_data = [shortest_latitude_longitude, self.shortest_dist, \
+                            self.get_Elevation(self.shortest_route, "elevation_gain"), self.get_Elevation(self.shortest_route, "elevation_drop")]
+
+        if(x == 0):
+            return shortest_path_data, shortest_path_data
+        
+        set_best_path(elevation_type)
+
+        start = time.time()
+        self.dijkstra
+        end = time.time()
+        dijkstra_path = self.best
+
+        if log: 
+            print()
+            print("Dijkstra route statistics")
+            print(dijkstra_path[1])
+            print(dijkstra_path[2])
+            print(dijkstra_path[3])
+            print("--- Time taken = %s seconds ---" % (end - start))
+
+        set_best_path(elevation_type)
+        
+        start = time.time()
+        self.a_star()
+        end = time.time()
+        a_star_path = self.best
+
+        if log:
+            print()
+            print("A star route statistics")
+            print(a_star_path[1])
+            print(a_star_path[2])
+            print(a_star_path[3])
+            print("--- Time taken = %s seconds ---" % (end - start))
+
+            print()
+        
+        if self.elevation_type == "minimize":
+            if(dijkstra_path[2] > a_star_path[2]) and (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]):
+                self.best = a_star_path
+                if log:
+                    print("A star chosen as best route")
+                    print()
+            else: 
+                self.best = dijkstra_path
+                if log:
+                    print("A star chosen as best route")
+                    print()
+        else:
+            if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] < a_star_path[2]):
+                self.best = a_star_path
+                if log:
+                    print("A star chosen as best route")
+                    print()
+            else: 
+                self.best = dijkstra_path
+                if log:
+                    print("A star chosen as best route")
+                    print()
+            
+        if (self.elevation_type == "minimize" and self.best[3] == float('-inf')) or (self.elevation_type == "maximize" and self.best[2] == float('-inf')):            
+            return shortest_path_data, [[], 0.0, 0, 0]
+
+        self.best[0] = [[Graph.nodes[node]['x'],Graph.nodes[node]['y']] for node in self.best[0]]
+
+        if((self.elevation_type == "maximize" and self.best[2] < shortest_path_data[2]) or (self.elevation_type == "minimize" and self.best[2] > shortest_path_data[2])):
+            self.best = shortest_path_data
+
+        return shortest_path_data, self.best
+
+    
+    def set_best_path(self, elevation_type):
+        if elevation_type == "minimize": 
+            self.best = [[], 0.0, float('inf'), float('-inf')]
+        else:
+            self.best = [[], 0.0, float('-inf'), float('-inf')]
+
+
+
+
+
+
+
+
 
 
 # graph = pd.read_pickle('../Model/map.p')
