@@ -30,11 +30,11 @@ class AStar(Search):
                 elif self.elevation_type == "maximize":
                     estimated_cost = cost + self.get_cost(curr_node, neighbor, "elevation_drop")
                
-               normal_cost = cost + self.get_cost(curr_node, neighbor, "normal")
+                normal_cost = cost + self.get_cost(curr_node, neighbor, "normal")
                 
                 if neighbor in open_nodes and normal_cost<=(1+self.x)*shortest_dist:
                     for actual_next,node_next in open_list:
-                        if node_next == neighbor and (cost >= actual_next or normal_cost>=(1+self.x)*shortest_dist:
+                        if node_next == neighbor and (cost >= actual_next or normal_cost>=(1+self.x)*shortest_dist):
                                 continue
                 heappush(open_list, [estimated_cost, neighbor])
                 parent_node[neighbor] = curr_node

@@ -55,11 +55,8 @@ class Dijkstra(Search):
             return
             
         self.found_end(previous_node, curr_distance)
-        # route = self.get_route(previous_node, self.end_node)
-        # elevation_dist, drop_distance = self.get_elevation(route, "elevation_gain"), self.get_elevation(route, "elevation_drop")
-        # self.best = [route[:], curr_distance, elevation_dist, drop_distance]
 
-graph = pd.read_pickle(r'../Model/map.p')
-a = Dijkstra(graph)
-a.dijkstra()
-print(a.best) 
+# graph = pd.read_pickle(r'../Model/map.p')
+# a = Dijkstra(graph)
+# a.dijkstra()
+# print(a.best) 
