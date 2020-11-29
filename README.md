@@ -1,3 +1,4 @@
+
 # CS520 - Elevation Based Navigation System (EleNA)
 
 EleNA is a mapping tool that provides the ability to minimize or maximize elevation gain for a given path between a start and an end location. The chosen elevation gain is within x% of the shortest path.
@@ -77,11 +78,3 @@ Due to time constraints and the situation of some team members, there are a few 
 `Dhruv Keyal`
 `Venkata (Dennis) Billagiri`
 `Aditya Vikram Agarwal`
-
-
-
-
-
-
-
-
