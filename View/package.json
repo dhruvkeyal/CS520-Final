@@ -2,8 +2,8 @@
     "name": "mapboxAndReact",
     "version": "0.0.1",
     "dependencies": {
+        "@material-ui/core": "^4.11.1",
         "mapbox-gl": "^1.13.0",
-        "mdbreact": "^4.27.0",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
         "react-scripts": "^3.1.1"

@@ -9,24 +9,26 @@
     z-index: 1 !important;
     padding: 6px;
     font-weight: bold;
-    }
+}
 
-    .searchStyle {
-        display: inline-block;
-        position: relative;
-        left: 20;
-        margin: 12px;
-        background-color: #404040;
-        color: #ffffff;
-        z-index: 100;
-        padding: 6px;
-        font-weight: bold;
-        }
+.searchStyle {
+    display: inline-block;
+    position: relative;
+    padding-top: 200;
+    left: 20;
+    margin: 12px;
+    background-color: "gray";
+    color: "black";
+    z-index: 100;
+    padding-top: 30px;
+    margin-top: 30;
+    font-weight: bold;
+}
      
-    .mapContainer {
+.mapContainer {
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
-    }
+}
