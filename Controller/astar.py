@@ -2,8 +2,11 @@ import pandas as pd
 from search import Search
 from heapq import heapify, heappop, heappush
 from collections import defaultdict
+import utils
+from memory_profiler import profile
 
 class AStar(Search):
+    @profile
     def a_star(self):
         shortest_dist = self.shortest_dist
         open_list = [[0, self.start_node]]
@@ -26,11 +29,11 @@ class AStar(Search):
                     continue
                 estimated_cost = 0
                 if self.elevation_type == "minimize":
-                    estimated_cost = cost + self.get_cost(curr_node, neighbor, "elevation_gain")
+                    estimated_cost = cost + utils.get_cost(self.Graph, curr_node, neighbor, "elevation_gain")
                 elif self.elevation_type == "maximize":
-                    estimated_cost = cost + self.get_cost(curr_node, neighbor, "elevation_drop")
+                    estimated_cost = cost + utils.get_cost(self.Graph, curr_node, neighbor, "elevation_drop")
                
-                normal_cost = cost + self.get_cost(curr_node, neighbor, "normal")
+                normal_cost = cost + utils.get_cost(self.Graph, curr_node, neighbor, "normal")
                 
                 if neighbor in open_nodes and normal_cost<=(1+self.x)*shortest_dist:
                     for actual_next,node_next in open_list:

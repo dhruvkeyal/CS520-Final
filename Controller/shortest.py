@@ -37,44 +37,51 @@ class ShortestPath():
         if(x == 0):
             return self.shortest_path_data, self.shortest_path_data
         
-        set_best_path(elevation_type)
+        self.set_best_path(elevation_type)
 
         start = time.time()
         d = Dijkstra(Graph)
         d.dijkstra()
         end = time.time()
+
+        print("Dijkstra Time:")
+        print(end - start)
         dijkstra_path = self.best
 
-        set_best_path(elevation_type)
+        self.set_best_path(elevation_type)
         
         start = time.time()
         a = AStar(Graph)
         a.a_star()
         end = time.time()
+
+        print("AStar Time:")
+        print(end - start)
+
         a_star_path = self.best
 
         if self.elevation_type == "minimize": 
-            self.best = get_best_minimize(dijkstra_path, a_star_path) 
+            self.best = self.get_best_minimize(dijkstra_path, a_star_path) 
         else: 
-            self.best = get_best_maximize(dijkstra_path, a_star_path)
+            self.best = self.get_best_maximize(dijkstra_path, a_star_path)
         
         if (self.elevation_type == "minimize"):
             min = True if self.best[3] == float('-inf') else False
         else: 
             max = True if self.best[2] == float('-inf') else False
         
-        if min or max: return shortest_path_data, [[], 0.0, 0, 0]
+        if min or max: return self.shortest_path_data, [[], 0.0, 0, 0]
 
         self.best[0] = [[Graph.nodes[node]['x'],Graph.nodes[node]['y']] for node in self.best[0]]
 
         if (self.elevation_type == "minimize"):
-            min = True if self.best[2] > shortest_path_data[2] else False
+            min = True if self.best[2] > self.shortest_path_data[2] else False
         else: 
-            min = True if self.best[2] < shortest_path_data[2] else False
+            min = True if self.best[2] < self.shortest_path_data[2] else False
         
-        if min or max: self.best = shortest_path_data
+        if min or max: self.best = self.shortest_path_data
 
-        return shortest_path_data, self.best
+        return self.shortest_path_data, self.best
 
     
     def set_best_path(self, elevation_type):

@@ -33,7 +33,7 @@ class Search:
 
     def found_end(self, parent_node, cost):
         route = self.get_route(parent_node, self.end_node)
-        elevation_dist, drop_distance = utils.get_elevation(route, "elevation_gain"), utils.get_elevation(route, "elevation_drop")
+        elevation_dist, drop_distance = utils.get_elevation(self.Graph, route, "elevation_gain"), utils.get_elevation(self.Graph, route, "elevation_drop")
         self.best = [route[:], cost, elevation_dist, drop_distance]       
 
 

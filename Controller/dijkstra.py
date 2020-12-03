@@ -2,8 +2,11 @@ import pandas as pd
 from search import Search
 from heapq import heapify, heappop, heappush
 from collections import defaultdict
+import utils
+from memory_profiler import profile
 
 class Dijkstra(Search):
+    @profile
     def dijkstra(self):
         if self.end_seach():
             return
@@ -32,16 +35,16 @@ class Dijkstra(Search):
                 if neighbor in visited:
                     continue
                 prev_priority =  priority.get(neighbor, None)
-                curr_edge_cost = self.get_cost(curr_node, neighbor, "normal")
+                curr_edge_cost = utils.get_cost(Graph, curr_node, neighbor, "normal")
                 # maximize(subtract) or minimize elevation(add)
                 if(elevation_type == "maximize"):
                     if(x<=0.5):
-                        next_priority = curr_edge_cost*0.1 + self.get_cost(curr_node, n, "elevation_drop")
+                        next_priority = curr_edge_cost*0.1 + utils.get_cost(Graph, curr_node, neighbor, "elevation_drop")
                         next_priority += curr_priority
                     else:
-                        next_priority = (curr_edge_cost*0.1 - self.get_cost(curr_node, n, "elevation_difference"))* edge_len*0.1
+                        next_priority = (curr_edge_cost*0.1 - utils.get_cost(Graph, curr_node, neighbor, "elevation_difference"))* curr_edge_cost*0.1
                 else:
-                        next_priority = curr_edge_cost*0.1 + self.get_cost(curr_node, n, "elevation_gain")
+                        next_priority = curr_edge_cost*0.1 + utils.get_cost(Graph, curr_node, neighbor, "elevation_gain")
                         next_priority += curr_priority
 
                 next_distance = curr_distance + curr_edge_cost
@@ -49,7 +52,7 @@ class Dijkstra(Search):
                 if(not prev_priority or next_priority < prev_priority) and next_distance <= shortest_dist*(1.0+x):
                     priority[neighbor] = next_priority
                     previous_node[neighbor] = curr_node
-                    heappush(queue, (next_priority, next_distance, neighbour))
+                    heappush(queue, (next_priority, next_distance, neighbor))
 
         if not curr_distance:
             return
