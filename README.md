@@ -25,7 +25,13 @@ brew install spatialindex
 pip3 install osmnx
 ```
 
-4. Install node.js
+4. Install memory profiler
+
+```
+pip install memory-profiler
+```
+
+5. Install node.js
 
 ```
 https://nodejs.org/en/
