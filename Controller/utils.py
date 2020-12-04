@@ -40,4 +40,3 @@ def get_elevation(Graph, route, cost_type = "both", is_total = False):
         return total_elev, piece_elevation
     else:
         return total_elev
-
