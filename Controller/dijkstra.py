@@ -61,8 +61,9 @@ class Dijkstra(Search):
                     previous_node[neighbor] = curr_node
                     heappush(queue, (next_priority, next_distance, neighbor))
 
-        # if not curr_distance:
-        #     return
+        if not curr_distance:
+            return
+        print(previous_node)
         self.found_end(previous_node, curr_distance)
 
 # graph = pd.read_pickle(r'../Model/map.p')
