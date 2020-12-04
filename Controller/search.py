@@ -12,14 +12,14 @@ Dijkstra and AStar exdend this implementation.
 '''
 class Search:
     # Constructor for Search objects 
-    def __init__(self, Graph, x=0.0, elevation_type="maximize"):
+    def __init__(self, Graph, start, end, shortest_dist, x=0.0, elevation_type="maximize"):
         self.Graph = Graph
         self.x = x
         self.elevation_type = elevation_type
-        self.start_node = None
-        self.end_node = None
+        self.start_node = start
+        self.end_node = end
         self.best = [[], 0.0, float('-inf'), 0.0]
-        self.shortest_dist = None
+        self.shortest_dist = shortest_dist
 
     '''
     Resets the graph.
@@ -49,7 +49,7 @@ class Search:
     Base condition to end the search algorithm.
     '''
     def end_seach(self):
-        return not (self.start_node == None or self.end_node == None)
+        return self.start_node == None or self.end_node == None
 
     '''
     Returns the best elevation.
