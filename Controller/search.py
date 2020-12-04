@@ -12,7 +12,7 @@ Dijkstra and AStar exdend this implementation.
 '''
 class Search:
     # Constructor for Search objects 
-    def __init__(self, Graph, start, end, shortest_dist, x=0.0, elevation_type="maximize"):
+    def __init__(self, Graph, start, end, shortest_dist=None, x=0.0, elevation_type="maximize"):
         self.Graph = Graph
         self.x = x
         self.elevation_type = elevation_type
