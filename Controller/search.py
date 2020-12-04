@@ -48,7 +48,7 @@ class Search:
     '''
     Base condition to end the search algorithm.
     '''
-    def end_seach(self):
+    def end_search(self):
         return self.start_node == None or self.end_node == None
 
     '''

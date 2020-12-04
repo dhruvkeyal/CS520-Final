@@ -49,32 +49,32 @@ class ShortestPath():
         if(x == 0):
             return self.shortest_path_data, self.shortest_path_data
         
-        self.set_best_path(elevation_type)
+        # self.set_best_path(elevation_type)
 
-        # Find computational time for Dijkstra
-        start = time.time()
-        d = Dijkstra(Graph, self.start_node, self.end_node, self.shortest_dist)
-        d.dijkstra()
-        end = time.time()
+        # # Find computational time for Dijkstra
+        # start = time.time()
+        # d = Dijkstra(Graph, self.start_node, self.end_node, self.shortest_dist)
+        # d.dijkstra()
+        # end = time.time()
         
-        # Output the time for Dijkstra and log it
-        print("Dijkstra Time:")
-        print(end - start)
+        # # Output the time for Dijkstra and log it
+        # print("Dijkstra Time:")
+        # print(end - start)
 
-        # Set the path for Dijkstra
-        dijkstra_path = self.best
+        # # Set the path for Dijkstra
+        # dijkstra_path = self.best
 
         self.set_best_path(elevation_type)
         
         # Find computation time for A-star
-        # start = time.time()
-        # a = AStar(Graph, self.start_node, self.end_node, self.shortest_dist)
-        # a.a_star()
-        # end = time.time()
+        start = time.time()
+        a = AStar(Graph, self.start_node, self.end_node, self.shortest_dist)
+        a.a_star()
+        end = time.time()
 
-        # # Output the time for AStar and log it
-        # print("AStar Time:")
-        # print(end - start)
+        # Output the time for AStar and log it
+        print("AStar Time:")
+        print(end - start)
 
         # # Set the path for A*
         # a_star_path = self.best

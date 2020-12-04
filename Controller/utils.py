@@ -1,6 +1,6 @@
 def get_cost(Graph, node_a, node_b, cost_type = "normal"):
 
-    if node_a is None or node_b is None:
+    if not node_a or not node_b:
         return
     if cost_type == "elevation_difference":
         return Graph.nodes[node_b]["elevation"] - Graph.nodes[node_a]["elevation"]
@@ -15,9 +15,6 @@ def get_cost(Graph, node_a, node_b, cost_type = "normal"):
         return max(0.0, Graph.nodes[node_a]["elevation"] - Graph.nodes[node_b]["elevation"])
     else:
         return abs(Graph.nodes[node_a]["elevation"] - Graph.nodes[node_b]["elevation"])
-
-
-
 
 
 def get_elevation(Graph, route, cost_type = "both", is_total = False):

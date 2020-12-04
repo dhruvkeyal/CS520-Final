@@ -15,7 +15,7 @@ class Dijkstra(Search):
     '''
     # @profile
     def dijkstra(self):
-        if self.end_seach():
+        if self.end_search():
             return
         Graph = self.Graph
         x = self.x
@@ -31,13 +31,13 @@ class Dijkstra(Search):
 
         while queue:
             curr_priority, curr_distance, curr_node = heappop(queue)
-
-            if(curr_node == end_node):
-                break
             
             if(curr_node not in visited):
                 visited.add(curr_node)
             
+            if(curr_node == end_node):
+                break
+
             for neighbor in Graph.neighbors(curr_node):
                 if neighbor in visited:
                     continue
@@ -51,8 +51,8 @@ class Dijkstra(Search):
                     else:
                         next_priority = (curr_edge_cost*0.1 - utils.get_cost(Graph, curr_node, neighbor, "elevation_difference"))* curr_edge_cost*0.1
                 else:
-                        next_priority = curr_edge_cost*0.1 + utils.get_cost(Graph, curr_node, neighbor, "elevation_gain")
-                        next_priority += curr_priority
+                    next_priority = curr_edge_cost*0.1 + utils.get_cost(Graph, curr_node, neighbor, "elevation_gain")
+                    next_priority += curr_priority
 
                 next_distance = curr_distance + curr_edge_cost
 
@@ -63,7 +63,7 @@ class Dijkstra(Search):
 
         if not curr_distance:
             return
-        print(previous_node)
+        print(end_node)
         self.found_end(previous_node, curr_distance)
 
 # graph = pd.read_pickle(r'../Model/map.p')
