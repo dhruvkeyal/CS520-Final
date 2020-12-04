@@ -17,6 +17,9 @@ def get_cost(Graph, node_a, node_b, cost_type = "normal"):
         return abs(Graph.nodes[node_a]["elevation"] - Graph.nodes[node_b]["elevation"])
 
 
+
+
+
 def get_elevation(Graph, route, cost_type = "both", is_total = False):
     total_elev = 0
     if is_total:
