@@ -39,9 +39,16 @@ https://nodejs.org/en/
 
 # Running the application
 
+For front-end:
+
 1. Clone git repository `https://github.com/ajana13/CS520-Final.git`
 2. Inside the View folder, run `npm install`
 3. Run the program by executing `npm start` inside the View folder
+
+For back-end:
+1. Inside Controller foler, run caller.py to get the best route
+2. Inside Controller foler, run test.py for test cases
+
 
 # Back-End Focus
 
