@@ -29,23 +29,27 @@ def test_get_route(S):
 
 # @Test("")
 def test_get_cost(Graph):
-    print("cost")
-    c = utils.get_cost(Graph,0, 4, cost_type = "elevation_difference")
+    print("Testing the cost function")
+
+    c = utils.get_cost(Graph, 0, 4, cost_type = "elevation_difference")
     assert isinstance(c, float)
-    print(c)
-    assert c == 3.0
+    assert c == 0.3
     
-    c = utils.get_cost(Graph,3, 2, cost_type= "elevation_gain")
+    c = utils.get_cost(Graph, 3, 2, cost_type= "elevation_gain")
     assert isinstance(c, float)
     assert c == 0.0
-    
-    c = utils.get_cost(Graph,4, 2, cost_type = "elevation_drop")
-    assert isinstance(c, float)
-    assert c == 2.0
 
-    c = utils.get_cost(Graph,2, 3, cost_type = "abs")
+    c = utils.get_cost(Graph, 2, 3, cost_type= "elevation_gain")
     assert isinstance(c, float)
-    assert c == 1.0
+    assert c == 0.1
+    
+    c = utils.get_cost(Graph, 4, 2, cost_type = "elevation_drop")
+    assert isinstance(c, float)
+    assert c == 0.2
+
+    c = utils.get_cost(Graph, 2, 3)
+    assert isinstance(c, float)
+    assert c == 0.1
 
 # @Test("")
 def test_get_elevation(Graph):
@@ -57,14 +61,15 @@ def test_get_elevation(Graph):
     c = utils.get_cost(Graph, 3, 2, cost_type= "elevation_gain")
     assert isinstance(c, float)
     assert c == 0.0
+
+    c = utils.get_cost(Graph, 2, 3, cost_type= "elevation_gain")
+    assert isinstance(c, float)
+    assert c == 0.1
     
     c = utils.get_cost(Graph, 4, 2, cost_type = "elevation_drop")
     assert isinstance(c, float)
-    assert c == 2.0
+    assert c == 0.2
 
-    c = utils.get_cost(Graph, 2, 3, cost_type = "abs")
-    assert isinstance(c, float)
-    assert c == 1.0
 
 
 # @Test("")

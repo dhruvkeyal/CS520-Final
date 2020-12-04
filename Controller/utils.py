@@ -22,7 +22,7 @@ def get_cost(Graph, node_a, node_b, cost_type = "normal"):
 
 def get_elevation(Graph, route, cost_type = "both", is_total = False):
     total_elev = 0
-    if not is_total:
+    if is_total:
         piece_elevation = []
     for i in range(len(route)-1):
         if cost_type == "normal":
@@ -34,9 +34,9 @@ def get_elevation(Graph, route, cost_type = "both", is_total = False):
         elif cost_type == "both":
             change = get_cost(Graph, route[i], route[i+1], "elevation_difference")
         total_elev += change
-        if not is_total:
+        if is_total:
             piece_elevation.append(change)
-    if not is_total:
+    if is_total:
         return total_elev, piece_elevation
     else:
         return total_elev
