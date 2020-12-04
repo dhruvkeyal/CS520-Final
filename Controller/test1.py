@@ -11,21 +11,27 @@ import utils
 from dijkstra import Dijkstra
 from shortest import ShortestPath
 from astar import AStar
-import unittest
+import pytest
 
 # @Test("")
 def test_get_route(S):
-    print("route")
+    print("Testing the route function")
     c = S.get_route({1 : 3, 3 : 2, 2 : 4, 4 : -1}, 1)
-    print(c)
     assert isinstance(c, list)
     assert c == [4, 2, 3, 1]
 
     c = S.get_route({2 : 3, 4 : 1, 3 : 4, 1 : -1}, 2 )
     assert isinstance(c, list)
-
     assert c == [1, 4 ,3 ,2]
-    print(c)
+
+    c = S.get_route({0 : 1, 1 : 4, 4 : 2, 2 : -1}, 0 )
+    assert isinstance(c, list)
+    assert c == [2, 4, 1, 0]
+
+    c = S.get_route({0 : 1, 1 : 4, 4 : -1}, 0 )
+    assert isinstance(c, list)
+    assert c == [4 ,1 ,0]
+
 
 # @Test("")
 def test_get_cost(Graph):
@@ -33,23 +39,67 @@ def test_get_cost(Graph):
 
     c = utils.get_cost(Graph, 0, 4, cost_type = "elevation_difference")
     assert isinstance(c, float)
-    assert c == 0.3
+    assert c == 3.0
+
+    c = utils.get_cost(Graph, 2, 0, cost_type = "elevation_difference")
+    assert isinstance(c, float)
+    assert c == -1.0
+
+    c = utils.get_cost(Graph, 1, 3, cost_type = "elevation_difference")
+    assert isinstance(c, float)
+    assert c == 2.0
+
+    c = utils.get_cost(Graph, 3, 2, cost_type = "elevation_difference")
+    assert isinstance(c, float)
+    assert c == -1.0
     
     c = utils.get_cost(Graph, 3, 2, cost_type= "elevation_gain")
     assert isinstance(c, float)
     assert c == 0.0
 
+    c = utils.get_cost(Graph, 2, 0, cost_type= "elevation_gain")
+    assert isinstance(c, float)
+    assert c == 0.0
+
+    c = utils.get_cost(Graph, 1, 3, cost_type= "elevation_gain")
+    assert isinstance(c, float)
+    assert c == 2.0
+
     c = utils.get_cost(Graph, 2, 3, cost_type= "elevation_gain")
     assert isinstance(c, float)
-    assert c == 0.1
-    
+    assert c == 1.0
+
     c = utils.get_cost(Graph, 4, 2, cost_type = "elevation_drop")
     assert isinstance(c, float)
-    assert c == 0.2
+    assert c == 2.0
 
-    c = utils.get_cost(Graph, 2, 3)
+    c = utils.get_cost(Graph, 2, 0, cost_type = "elevation_drop")
     assert isinstance(c, float)
-    assert c == 0.1
+    assert c == 1.0
+
+    c = utils.get_cost(Graph, 1, 3, cost_type = "elevation_drop")
+    assert isinstance(c, float)
+    assert c == 0.0
+
+    c = utils.get_cost(Graph, 2, 3, cost_type = "elevation_drop")
+    assert isinstance(c, float)
+    assert c == 0.0
+
+    c = utils.get_cost(Graph, 1, 4)
+    assert isinstance(c, float)
+    assert c == 2.0
+
+    c = utils.get_cost(Graph, 4, 2)
+    assert isinstance(c, float)
+    assert c == 3.0
+
+    c = utils.get_cost(Graph, 0, 3)
+    assert isinstance(c, float)
+    assert c == 4.0
+
+    c = utils.get_cost(Graph, 0, 1)
+    assert isinstance(c, float)
+    assert c == 1.0
 
 # @Test("")
 def test_get_elevation(Graph):
@@ -59,6 +109,77 @@ def test_get_elevation(Graph):
     c, p = utils.get_elevation(Graph, route, cost_type = "both", is_total = True)
     assert isinstance(c, float)
     assert isinstance(p, list)
+    assert c == 1.0
+    assert p == [3.0, -2.0]
+
+    c, p = utils.get_elevation(Graph, route, cost_type = "elevation_gain", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 3.0
+    assert p == [3.0, 0.0]
+    
+    c, p = utils.get_elevation(Graph, route, cost_type = "elevation_drop", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 2.0
+    assert p == [0.0, 2.0]
+    
+    c, p = utils.get_elevation(Graph, route, cost_type = "normal", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 5.0
+    assert p == [2.0, 3.0]
+
+    route = [0, 1, 2]
+    c, p = utils.get_elevation(Graph, route, cost_type = "both", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 1.0
+    assert p == [0.0, 1.0]
+
+    c, p = utils.get_elevation(Graph, route, cost_type = "elevation_gain", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 1.0
+    assert p == [0.0, 1.0]
+    
+    c, p = utils.get_elevation(Graph, route, cost_type = "elevation_drop", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 0.0
+    assert p == [0.0, 0.0]
+    
+    c, p = utils.get_elevation(Graph, route, cost_type = "normal", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 2.5
+    assert p == [1.0, 1.5]
+
+    route = [0, 1, 4, 2]
+    c, p = utils.get_elevation(Graph, route, cost_type = "both", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 1.0
+    assert p == [0.0, 3.0, -2.0]
+
+    c, p = utils.get_elevation(Graph, route, cost_type = "elevation_gain", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 3.0
+    assert p == [0.0, 3.0, 0.0]
+    
+    c, p = utils.get_elevation(Graph, route, cost_type = "elevation_drop", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 2.0
+    assert p == [0.0, 0.0, 2.0]
+    
+    c, p = utils.get_elevation(Graph, route, cost_type = "normal", is_total = True)
+    assert isinstance(c, float)
+    assert isinstance(p, list)
+    assert c == 6.0
+    assert p == [1.0, 2.0, 3.0]
+    
 
 
 # @Test("")
@@ -85,23 +206,21 @@ if __name__ == "__main__":
     [Graph.add_node(i, elevation = 0.0) for i in range(5)]
     edges = [(0,1,1.0), (1,2,1.5), (1,4,2.0), (0,3,4.0), (4,2,3.0)]
     Graph.add_weighted_edges_from(edges)
-    elevations = [0.0, 0.0,0.1,0.2,0.3]
+    elevations = [0.0, 0.0,1.0,2.0,3.0]
 
     for i, elevation in enumerate(elevations):
         Graph.nodes[i]["elevation"] = elevation
-    
+   
     S = Search(Graph, x = 0.0, elevation_type = "maximize")
-    # test_get_route(S)
+    test_get_route(S)
 
     test_get_cost(Graph)
-    # test_get_elevation(Graph)
+    test_get_elevation(Graph)
 
-    # S = ShortestPath(Graph, x = 50.0, elevation_type="maximize")
-    # test_get_shortest_distance(S)
+    S = ShortestPath(Graph, x = 50.0, elevation_type="maximize")
+    test_get_shortest_distance(S)
 
-    D = Dijkstra(Graph, x = 0.0, elevation_type = "maximize")
-
-    A = AStar(Graph, x = 0.0, elevation_type = "maximize")
+   
 
 
 

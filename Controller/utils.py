@@ -1,6 +1,6 @@
 def get_cost(Graph, node_a, node_b, cost_type = "normal"):
 
-    if not node_a or not node_b:
+    if node_a is None or node_b is None:
         return
     if cost_type == "elevation_difference":
         return Graph.nodes[node_b]["elevation"] - Graph.nodes[node_a]["elevation"]
