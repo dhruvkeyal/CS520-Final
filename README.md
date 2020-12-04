@@ -46,8 +46,8 @@ For front-end:
 3. Run the program by executing `npm start` inside the View folder
 
 For back-end:
-1. Inside Controller foler, run caller.py to get the best route
-2. Inside Controller foler, run test.py for test cases
+1. Inside Controller folder, run caller.py to get the best route
+2. Inside Controller folder, run test.py for test cases
 
 
 # Back-End Focus
