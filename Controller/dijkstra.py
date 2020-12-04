@@ -5,7 +5,14 @@ from collections import defaultdict
 import utils
 from memory_profiler import profile
 
+'''
+Class for the Dijkstra search algorithm.
+'''
 class Dijkstra(Search):
+
+    '''
+    Calculates distance using the Dijkstra algorithm.
+    '''
     @profile
     def dijkstra(self):
         if self.end_seach():

@@ -5,7 +5,14 @@ from collections import defaultdict
 import utils
 from memory_profiler import profile
 
+'''
+Class for the A* search algorithm.
+'''
 class AStar(Search):
+
+    '''
+    Calculates using the A* algorithm.
+    '''
     @profile
     def a_star(self):
         shortest_dist = self.shortest_dist
