@@ -60,6 +60,11 @@ Due to time constraints and the situation of some team members, there are a few 
 - The react front-end application and the python back-end program have to be integrated more sophistically in order to fully perform the functionality for start and end location. 
 - Although the algorithms described above use sufficient minimum and maximum elevation gain, that functionality needs to be properly integrated in order to visualize the changes.
 
+# Software Architecture and Test Cases
+
+There is documentation for software architecture and test cases / performance in the two pdfs attached.
+
+
 
 # Contributors
 
