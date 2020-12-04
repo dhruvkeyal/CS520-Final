@@ -1,9 +1,13 @@
 def get_cost(Graph, node_a, node_b, cost_type = "normal"):
-    def cost_normal():
-        try : 
-            return Graph.edges[node_a, node_b ,0]["length"]
-        except : 
-            return Graph.edges[node_a, node_b]["weight"]
+
+    if node_a is None or node_b is None : 
+        return
+
+    # def cost_normal():
+    #     try : 
+    #         return Graph.edges[node_a, node_b ,0]["length"]
+    #     except : 
+    #         return Graph.edges[node_a, node_b]["weight"]
     def cost_diff():
         return Graph.nodes[node_b]["elevation"] - Graph.nodes[node_a]["elevation"]
     def cost_gain():
@@ -13,16 +17,15 @@ def get_cost(Graph, node_a, node_b, cost_type = "normal"):
     def cost_default():
         return abs(Graph.nodes[node_a]["elevation"] - Graph.nodes[node_b]["elevation"])
 
-    if node_a is None or node_b is None : 
-        return 
-    
     switcher = {
-        "normal": cost_normal(),
-        "elevation_diff": cost_diff(),
+        # "normal": cost_normal(),
+        "elevation_difference": cost_diff(),
         "elevation_gain": cost_gain(),
         "elevation_drop" : cost_drop()
     }
-    return abs(Graph.nodes[node_a]["elevation"] - Graph.nodes[node_b]["elevation"])
+    func = switcher.get(cost_type, "default")
+    return func()
+    # return abs(Graph.nodes[node_a]["elevation"] - Graph.nodes[node_b]["elevation"])
 
 
 def get_elevation(Graph, route, cost_type = "both", is_total = False):
