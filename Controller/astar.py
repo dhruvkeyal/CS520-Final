@@ -55,8 +55,6 @@ class AStar(Search):
                 heappush(open_list, [estimated_cost, neighbor])
                 parent_node[neighbor] = curr_node
 
-
-
 # graph = pd.read_pickle(r'../Model/map.p')
 # a = AStar(graph)
 # a.a_star()
