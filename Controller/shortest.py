@@ -49,60 +49,63 @@ class ShortestPath():
         if(x == 0):
             return self.shortest_path_data, self.shortest_path_data
         
-        self.set_best_path(elevation_type)
+        # self.set_best_path(elevation_type)
 
         # Find computational time for Dijkstra
-        start = time.time()
-        d = Dijkstra(Graph, self.start_node, self.end_node, self.shortest_dist)
-        d.dijkstra()
-        end = time.time()
-        
-        # Output the time for Dijkstra and log it
-        print("Dijkstra Time:")
-        print(end - start)
-
-        # Set the path for Dijkstra
-        dijkstra_path = self.best
-
-        # self.set_best_path(elevation_type)
-        
-        # # Find computation time for A-star
         # start = time.time()
-        # a = AStar(Graph, self.start_node, self.end_node, self.shortest_dist)
-        # a.a_star()
+        # d = Dijkstra(Graph, self.start_node, self.end_node, self.shortest_dist)
+        # d.dijkstra()
         # end = time.time()
-
-        # # Output the time for AStar and log it
-        # print("AStar Time:")
+        
+        # # Output the time for Dijkstra and log it
+        # print("Dijkstra Time:")
         # print(end - start)
 
-        # # # Set the path for A*
-        # a_star_path = a.best
-        # print(a_star_path[1])
-        # print(a_star_path[2])
-        # print(a_star_path[3])
-        
-        # # update path based on elevation type
-        # if self.elevation_type == "minimize": 
-        #     self.best = self.get_best_minimize(dijkstra_path, a_star_path) 
-        # else: 
-        #     self.best = self.get_best_maximize(dijkstra_path, a_star_path)
-        
-        # if (self.elevation_type == "minimize"):
-        #     min = True if self.best[3] == float('-inf') else False
-        # else: 
-        #     max = True if self.best[2] == float('-inf') else False
-        
-        # if min or max: return self.shortest_path_data, [[], 0.0, 0, 0]
+        # # Set the path for Dijkstra
+        # dijkstra_path = self.best
 
-        # self.best[0] = [[Graph.nodes[node]['x'],Graph.nodes[node]['y']] for node in self.best[0]]
-
-        # if (self.elevation_type == "minimize"):
-        #     min = True if self.best[2] > self.shortest_path_data[2] else False
-        # else: 
-        #     min = True if self.best[2] < self.shortest_path_data[2] else False
+        self.set_best_path(elevation_type)
         
-        # if min or max: self.best = self.shortest_path_data
+        # Find computation time for A-star
+        start = time.time()
+        a = AStar(Graph, self.start_node, self.end_node, self.shortest_dist)
+        a.a_star()
+        end = time.time()
+
+        # Output the time for AStar and log it
+        print("AStar Time:")
+        print(end - start)
+
+        # # Set the path for A*
+        a_star_path = a.best
+        print("A-star Path: ")
+        print(a_star_path[0])
+        print(" ")
+        print(a_star_path[1])
+        print(a_star_path[2])
+        print(a_star_path[3])
+        
+        # update path based on elevation type
+        if self.elevation_type == "minimize": 
+            self.best = self.get_best_minimize(dijkstra_path, a_star_path) 
+        else: 
+            self.best = self.get_best_maximize(dijkstra_path, a_star_path)
+        
+        if (self.elevation_type == "minimize"):
+            min = True if self.best[3] == float('-inf') else False
+        else: 
+            max = True if self.best[2] == float('-inf') else False
+        
+        if min or max: return self.shortest_path_data, [[], 0.0, 0, 0]
+
+        self.best[0] = [[Graph.nodes[node]['x'],Graph.nodes[node]['y']] for node in self.best[0]]
+
+        if (self.elevation_type == "minimize"):
+            min = True if self.best[2] > self.shortest_path_data[2] else False
+        else: 
+            min = True if self.best[2] < self.shortest_path_data[2] else False
+        
+        if min or max: self.best = self.shortest_path_data
 
         return self.shortest_path_data, self.best
 

@@ -1,3 +1,4 @@
+# get the cost between two given nodes 
 def get_cost(Graph, node_a, node_b, cost_type = "normal"):
 
     if not node_a or not node_b:
@@ -17,6 +18,7 @@ def get_cost(Graph, node_a, node_b, cost_type = "normal"):
         return abs(Graph.nodes[node_a]["elevation"] - Graph.nodes[node_b]["elevation"])
 
 
+# find elevations for the graph route using the specified elevation - minimize, maximize 
 def get_elevation(Graph, route, cost_type = "both", is_total = False):
     total_elev = 0
     if is_total:
