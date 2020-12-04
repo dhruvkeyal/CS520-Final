@@ -110,9 +110,9 @@ if __name__ == "__main__":
         Graph.nodes[i]["elevation"] = elevation
     
     S = Search(Graph, x = 0.0, elevation_type = "maximize")
-    # test_get_route(S)
+    test_get_route(S)
 
-    test_get_cost(Graph)
+    # test_get_cost(Graph)
     # test_get_elevation(Graph)
 
     # S = ShortestPath(Graph, x = 50.0, elevation_type="maximize")
