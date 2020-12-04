@@ -3,7 +3,7 @@ from search import Search
 from heapq import heapify, heappop, heappush
 from collections import defaultdict
 import utils
-from memory_profiler import profile
+# from memory_profiler import profile
 
 '''
 Class for the A* search algorithm.
@@ -15,11 +15,11 @@ class AStar(Search):
     Calculates using the A* algorithm.
     profiler to get the space usage for a_star function
     '''
-    @profile
+    # @profile
     def a_star(self):
         shortest_dist = self.shortest_dist
         open_list = [[0, self.start_node]]
-        open_nodes = {self.start_node}
+        open_nodes = [self.start_node]
         # Using priority queue to get minimum cost nodes (shortest)
         heapify(open_list)
         closed_nodes = set()
@@ -47,16 +47,12 @@ class AStar(Search):
                
                 normal_cost = cost + utils.get_cost(self.Graph, curr_node, neighbor, "normal")
                 
-                if neighbor in open_nodes and normal_cost<=(1+self.x)*shortest_dist:
+                if neighbor in open_nodes:# and normal_cost<=(1+self.x)*shortest_dist:
                     # find if neighbor already in open list, update only if score is less
                     for actual_next,node_next in open_list:
-                        if node_next == neighbor and (cost >= actual_next or normal_cost>=(1+self.x)*shortest_dist):
+                        if node_next == neighbor and (cost >= actual_next):# or normal_cost>=(1+self.x)*shortest_dist):
                                 continue
                 heappush(open_list, [estimated_cost, neighbor])
+                open_nodes.append(neighbor)
                 parent_node[neighbor] = curr_node
-
-# graph = pd.read_pickle(r'../Model/map.p')
-# a = AStar(graph)
-# a.a_star()
-# print(a.best) 
     

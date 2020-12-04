@@ -3,7 +3,7 @@ from search import Search
 from heapq import heapify, heappop, heappush
 from collections import defaultdict
 import utils
-from memory_profiler import profile
+# from memory_profiler import profile
 
 '''
 Class for the Dijkstra search algorithm.
@@ -13,7 +13,7 @@ class Dijkstra(Search):
     '''
     Calculates distance using the Dijkstra algorithm.
     '''
-    @profile
+    # @profile
     def dijkstra(self):
         if self.end_seach():
             return
@@ -61,9 +61,8 @@ class Dijkstra(Search):
                     previous_node[neighbor] = curr_node
                     heappush(queue, (next_priority, next_distance, neighbor))
 
-        if not curr_distance:
-            return
-            
+        # if not curr_distance:
+        #     return
         self.found_end(previous_node, curr_distance)
 
 # graph = pd.read_pickle(r'../Model/map.p')
