@@ -25,6 +25,7 @@ class ShortestPath():
         start_point: The start point.
         end_point: The end point.
     '''
+    # find the shortest distance between the source and destination using the specified elevation
     def get_shortest_distance(self, start_point, end_point, x, elevation_type = "minimize"):
         Graph = self.Graph
         self.x  = x/100
@@ -43,32 +44,42 @@ class ShortestPath():
         self.shortest_path_data = [self.shortest_latitude_longitude, self.shortest_dist, \
                             utils.get_elevation(Graph, self.shortest_route, "elevation_gain"), utils.get_elevation(Graph, self.shortest_route, "elevation_drop")]
 
+
+        # If x is 0 (no interest in elevation), return the found shortest path
         if(x == 0):
             return self.shortest_path_data, self.shortest_path_data
         
         self.set_best_path(elevation_type)
 
+        # Find computational time for Dijkstra
         start = time.time()
-        d = Dijkstra(Graph)
+        d = Dijkstra(Graph, self.start_node, self.end_node)
         d.dijkstra()
         end = time.time()
-
+        
+        # Output the time for Dijkstra and log it
         print("Dijkstra Time:")
         print(end - start)
+
+        # Set the path for Dijkstra
         dijkstra_path = self.best
 
         self.set_best_path(elevation_type)
         
+        # Find computation time for A-star
         start = time.time()
-        a = AStar(Graph)
+        a = AStar(Graph, self.start_node, self.end_node)
         a.a_star()
         end = time.time()
 
+        # Output the time for AStar and log it
         print("AStar Time:")
         print(end - start)
 
+        # Set the path for A*
         a_star_path = self.best
-
+        
+        # update path based on elevation type
         if self.elevation_type == "minimize": 
             self.best = self.get_best_minimize(dijkstra_path, a_star_path) 
         else: 
@@ -99,6 +110,7 @@ class ShortestPath():
         elevation_type: The type according to which the path is required: to maximize or minimize elevation gain.
     '''
     def set_best_path(self, elevation_type):
+        # initialize the best variables accoring to required elevation type
         if elevation_type == "minimize": 
             self.best = [[], 0.0, float('inf'), float('-inf')]
         else:
@@ -111,6 +123,7 @@ class ShortestPath():
         a_star_path: Path with the A* algorithm.
     '''
     def get_best_maximize(self, dijkstra_path, a_star_path):
+        # Find the better function among A-star and Dijkstra when maximizing
         return a_star_path if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] < a_star_path[2]) else dijkstra_path
 
     '''
@@ -120,4 +133,5 @@ class ShortestPath():
         a_star_path: Path with the A* algorithm.
     '''
     def get_best_minimize(self, dijkstra_path, a_star_path):
+        # Find the better function among A-star and Dijkstra when minimizing
         return a_star_path if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] > a_star_path[2]) else dijkstra_path
