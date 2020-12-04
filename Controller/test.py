@@ -104,7 +104,7 @@ def test_get_cost(Graph):
 
 # @Test("")
 def test_get_elevation(Graph):
-    print("Testing the route function")
+    print("Testing the elevation function")
 
     route = [1, 4, 2]
     c, p = utils.get_elevation(Graph, route, cost_type = "both", is_total = True)
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     S = Search(Graph, x = 0.0, start = 0, end = 2, elevation_type = "maximize")
     test_get_route(S)
 
-    # test_get_cost(Graph)
+    test_get_cost(Graph)
     test_get_elevation(Graph)
 
     # S = ShortestPath(Graph, x = 50.0, elevation_type="maximize")
