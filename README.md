@@ -43,22 +43,6 @@ https://nodejs.org/en/
 2. Inside the View folder, run `npm install`
 3. Run the program by executing `npm start` inside the View folder
 
-![EleNA](map.png)
-
-# Model
-
-Used MVC Model, Controller, View 
-
-Created Three separate folders for Model, Controller, View
-Model -> config.py, graph.py
-This holds graph generation process using OSMnx
-
-Controller -> astar.py, dijkstra, search.py, shortest.py, utils.py, caller.py
-This holds the complete backend logic for calculating the shortest path between two points based on location
-
-View-> React Application with Mapbox GL JS and Material UI
-This holds the UI framework of the application
-
 # Back-End Focus
 
 For this project, the team focused primarily on the back-end functionality. The logic behind the code is given below:
