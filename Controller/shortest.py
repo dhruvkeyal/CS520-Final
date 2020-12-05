@@ -5,6 +5,9 @@ from dijkstra import Dijkstra
 from astar import AStar
 import utils
 
+'''
+Class for the Shortest path in the graph.
+'''
 class ShortestPath():
 
     def __init__(self, Graph, x=0.0, elevation_type="maximize"):
@@ -16,6 +19,12 @@ class ShortestPath():
         self.best = [[], 0.0, float('-inf'), 0.0]
         self.shortest_dist = None
 
+    '''
+    Returns the shortest distance between two points.
+    Params:
+        start_point: The start point.
+        end_point: The end point.
+    '''
     def get_shortest_distance(self, start_point, end_point, x, elevation_type = "minimize"):
         Graph = self.Graph
         self.x  = x/100
@@ -83,15 +92,32 @@ class ShortestPath():
 
         return self.shortest_path_data, self.best
 
-    
+
+    '''
+    Sets the best path according to maximizing or minimizing elevation gain.
+    Params:
+        elevation_type: The type according to which the path is required: to maximize or minimize elevation gain.
+    '''
     def set_best_path(self, elevation_type):
         if elevation_type == "minimize": 
             self.best = [[], 0.0, float('inf'), float('-inf')]
         else:
             self.best = [[], 0.0, float('-inf'), float('-inf')]
-    
+
+    '''
+    Returns the path that maximizes elevation gain.
+    Params:
+        dijkstra_path: Path with the Dijkstra algorithm.
+        a_star_path: Path with the A* algorithm.
+    '''
     def get_best_maximize(self, dijkstra_path, a_star_path):
         return a_star_path if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] < a_star_path[2]) else dijkstra_path
-        
+
+    '''
+    Returns the path that minimizes elevation gain.
+    Params:
+        dijkstra_path: Path with the Dijkstra algorithm.
+        a_star_path: Path with the A* algorithm.
+    '''
     def get_best_minimize(self, dijkstra_path, a_star_path):
         return a_star_path if (dijkstra_path[2] != a_star_path[2] or dijkstra_path[1] > a_star_path[1]) and (dijkstra_path[2] > a_star_path[2]) else dijkstra_path
