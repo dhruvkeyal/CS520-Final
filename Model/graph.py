@@ -4,15 +4,22 @@ import os
 import numpy as np
 import pickle as p
 
+'''
+Class for the graph of the map that the user wants to check the maximum elevation gain on.
+'''
 class Map:
     def __init__(self):
         self.google_key = API
         self.graph = None
-    
+
     def elevation(self, graph):
         graph = ox.add_node_elevations(graph, api_key=self.google_key)
         return graph  
 
+    '''
+    Adds a node to the graph.
+    Return: The graph with the added new node.
+    '''
     def add_end_node(self, graph, end):
         end_node = graph.nodes[ox.get_nearest_node(graph, point=end)]
         lat_end, long_end = end_node["y"], end_node["x"]        
@@ -23,6 +30,10 @@ class Map:
             data['dist_from_dest'] = dist
         return graph
 
+    '''
+    Calculates the distance between any two points on the graph.
+    Return: The distance between two points.
+    '''
     def dist_nodes(self, lat1, long1, lat2, long2):
         radius=6371008.8
         lat1, long1 = np.radians(lat1), np.radians(long1)
@@ -32,6 +43,10 @@ class Map:
         b = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
         return radius * b
 
+    '''
+    Getter method for the graph on which the user wants to check the elevation gain.
+    Return: The graph on which to check the elevation gain.
+    '''
     def get_graph(self, s, e):
         self.graph = ox.graph_from_point(s, dist=10000, network_type='walk')
         self.graph = self.elevation(self.graph)                         
