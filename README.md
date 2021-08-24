@@ -60,12 +60,6 @@ astar.py and dijkstra.py calculates the shortest possible distance between start
 - Shortest.py has function get_shortest_distance which calculates the shortest path by calling astar, dijkstra and returns the best possible route by comparing both of the algorithms
 - caller.py return the shortest path based on the start point and end point 
 
-# Limitations
-
-Due to time constraints and the situation of some team members, there are a few limitations for the project. They are:
-
-- The react front-end application and the python back-end program have to be integrated more sophistically in order to fully perform the functionality for start and end location. 
-- Although the algorithms described above use sufficient minimum and maximum elevation gain, that functionality needs to be properly integrated in order to visualize the changes.
 
 # Software Architecture and Test Cases
 
