@@ -3,6 +3,7 @@
 
 EleNA is a mapping tool that provides the ability to minimize or maximize elevation gain for a given path between a start and an end location. The chosen elevation gain is within x% of the shortest path.
 
+
 # Set Up and Installation
 
 Tools required:
@@ -36,6 +37,7 @@ pip install memory-profiler
 ```
 https://nodejs.org/en/
 ```
+
 
 # Running the application
 
